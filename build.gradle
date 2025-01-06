@@ -25,11 +25,11 @@ dependencies {
 publishing {
     repositories {
         maven {
-            url System.getenv('MAVEN_REPO_URL')
-            credentials {
-                username System.getenv('MAVEN_REPO_USERNAME')
-                password System.getenv('MAVEN_REPO_PASSWORD')
-            }
+          url 'https://mymavenrepo.com/repo/hnCnJJ9nQAeIt28GY0az/'
+          credentials {
+        username 'myMavenRepo'
+        password 'nesrine'
+      }
         }
     }
 }
