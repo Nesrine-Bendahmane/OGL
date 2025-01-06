@@ -35,43 +35,50 @@ publishing {
 }
 
 cucumberReports {
-    outputDir = file('build/reports/cucumber')
-    buildId = '0'
-    reports = files('reports/example-report.json')
+  outputDir = file('build/reports/cucumber')
+  buildId = '0'
+  reports = files('reports/example-report.json')
 }
 
-tasks.named('compileTestJava') {
-    dependsOn tasks.named('jar')
+tasks.withType(Test) {
+  useJUnit() // Explicitly set JUnit for tests
+  reports {
+    junitXml.required.set(true) // Ensure XML reports are generated
+    html.required.set(true) // Ensure HTML reports are generated
+  }
+  finalizedBy jacocoTestReport
 }
-jar {
-    archiveFileName = 'TP7-1.0.jar'
-}
-test.finalizedBy "jacocoTestReport"
-
 
 jacocoTestReport {
-    reports {
-        xml.required = true  // Enable XML report for SonarQube
-        csv.required = false
-        html.required = true
-    }
+  dependsOn test
+  reports {
+    xml.required.set(true) // Required for SonarQube
+    html.required.set(true) // Optional: Generates an HTML report
+  }
 }
+
+tasks.javadoc {
+  options.encoding = 'UTF-8'
+  options.addStringOption('Xdoclint:none', '-quiet')
+}
+
 sonar {
-    properties {
-
-        property "sonar.login" ,"sqa_b8e053c13816bab9822b766703dc19fd818b0dcc"
-        property "sonar.projectKey", "com.example:TP7"
-        property "sonar.projectName", "TP7"
-        property "sonar.projectVersion", "1.0"
-        property "sonar.sources", "src/main/java"
-        property "sonar.tests", "src/test/java"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.junit.reportPaths", "build/test-results/test"
-        property "sonar.jacoco.reportPaths", "build/jacoco/test.exec"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-
-    }
+  properties {
+    property "sonar.projectKey", "com.example:h_code"
+    property "sonar.projectName", "n_tpogl7"
+    property "sonar.skipCompile", "true"
+    property 'sonar.qualitygate.wait', true
+    property "sonar.host.url", "http://197.140.142.82:9000"
+    property "sonar.projectVersion", "1.0"
+    property "sonar.sources", "src/main/java"
+    property "sonar.tests", "src/test/java"
+    property "sonar.sourceEncoding", "UTF-8"
+    property "sonar.junit.reportPaths", "build/test-results/test"
+    property "sonar.jacoco.reportPaths", "build/jacoco/test.exec"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+  }
 }
+
 sendMail {
     smtpServer {
         host "smtp.gmail.com"
