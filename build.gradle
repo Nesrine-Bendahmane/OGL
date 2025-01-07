@@ -25,12 +25,12 @@ dependencies {
 
 publishing {
     repositories {
-        maven {
-            url System.getenv('MAVEN_REPO_URL')
-            credentials {
-                username System.getenv('MAVEN_REPO_USERNAME')
-                password System.getenv('MAVEN_REPO_PASSWORD')
-            }
+       maven {
+         url 'https://mymavenrepo.com/repo/hnCnJJ9nQAeIt28GY0az/'
+         credentials {
+        username 'myMavenRepo'
+        password 'nesrine'
+      }
         }
     }
 }
@@ -58,20 +58,20 @@ jacocoTestReport {
     }
 }
 sonar {
-    properties {
-
-        property "sonar.login" ,"sqa_b8e053c13816bab9822b766703dc19fd818b0dcc"
-        property "sonar.projectKey", "com.example:TP7"
-        property "sonar.projectName", "TP7"
-        property "sonar.projectVersion", "1.0"
-        property "sonar.sources", "src/main/java"
-        property "sonar.tests", "src/test/java"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.junit.reportPaths", "build/test-results/test"
-        property "sonar.jacoco.reportPaths", "build/jacoco/test.exec"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-
-    }
+  properties {
+    property "sonar.projectKey", "com.example:h_code"
+    property "sonar.projectName", "n_tp7"
+    property "sonar.skipCompile", "true"
+    property 'sonar.qualitygate.wait', true
+    property "sonar.host.url", "http://197.140.142.82:9000"
+    property "sonar.projectVersion", "1.0"
+    property "sonar.sources", "src/main/java"
+    property "sonar.tests", "src/test/java"
+    property "sonar.sourceEncoding", "UTF-8"
+    property "sonar.junit.reportPaths", "build/test-results/test"
+    property "sonar.jacoco.reportPaths", "build/jacoco/test.exec"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+  }
 }
 
 
