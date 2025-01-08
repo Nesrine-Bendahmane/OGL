@@ -87,19 +87,17 @@ jobs:
       - name: Deploy
         run: ./gradlew publish
         
-      - name: Send Email
-        uses: hilarion5/send-mail@v1
+  Notification:
+    needs: Deploy
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          smtp-server: smtp.gmail.com
-          smtp-port: 465
-          smtp-secure: true
-          from-email: bendahmane.nesrinee@gmail.com
-          to-email: ln_bendahmane@esi.dz
-          username: bendahmane.nesrinee@gmail.com
-          password: ${{secrets.MAIL_TOKEN}}
-          subject: Deploy succes
-          body: This is a mail sent from GitHub Actions ,Deploy succes.
-          html: |
-             <h1>This is a test email</h1>
-             <p>Test Paragraph</p>
-      
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Send Notifications
+        run: |
+          ./gradlew postPublishedPluginToSlack
+          ./gradlew sendMail
